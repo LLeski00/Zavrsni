@@ -23,20 +23,28 @@ class StudentView(generics.ListAPIView):
     serializer_class = StudentSerializer
 
 class GetStudent(APIView):
-    serializer_class = StudentSerializer
-    lookup_url_kwarg = 'code'
 
     def get(self,request, format=None):
-        code = request.GET.get(self.lookup_url_kwarg)
-        if code != None:
-            student = Student.objects.filter(code = code)
-            if len(student) > 0:
-                data = StudentSerializer(student[0]).data
-                data['is_host'] = self.request.session.session_key == student[0].host
-                return Response(data, status=status.HTTP_200_OK)
-            return Response({'Student not found':'Invalid student code'}, status=status.HTTP_404_NOT_FOUND)
-        
-        return Response({'Bad Request':'Code paramater not found in request'}, status=status.HTTP_400_BAD_REQUEST)
+        majors = "kumpr"
+
+        return Response(majors, status=status.HTTP_200_OK)
+    
+class GetData(APIView):
+
+    def get(self,request, format=None):
+        majors = [
+		{ "id": 110, "name": "SVEUČILIŠNI - ELEKTROTEHNIKA I INFORMACIJSKA TEHNOLOGIJA" },
+		{ "id": 111, "name": "SVEUČILIŠNI - AUTOMATIKA I SUSTAVI" },
+		{ "id": 112, "name": "SVEUČILIŠNI - ELEKTRONIKA I RAČUNALNO INŽENJERSTVO" },
+		{ "id": 113, "name": "SVEUČILIŠNI - ELEKTROTEHNIKA" },
+		{ "id": 114, "name": "SVEUČILIŠNI - KOMUNIKACIJSKA I INFORMACIJSKA TEHNOLOGIJA" },
+		{ "id": 120, "name": "SVEUČILIŠNI - RAČUNARSTVO" },
+		{ "id": 510, "name": "STRUČNI - ELEKTROTEHNIKA" },
+		{ "id": 511, "name": "STRUČNI - ELEKTROENERGETIKA" },
+		{ "id": 512, "name": "STRUČNI - ELEKTRONIKA" },
+		{ "id": 550, "name": "STRUČNI - RAČUNARSTVO" }
+	    ]
+        return Response(majors, status=status.HTTP_200_OK)
 
 class CreateStudentView(APIView):
     serializer_class = CreateStudentSerializer
@@ -69,12 +77,14 @@ class Subject:
     subject_grade=0
 
 class Student:
-    def __init__(self, name, age, gender, id, grades):
+    def __init__(self, name, age, gender, id, grades, current_major, future_major):
         self.student_name = name
         self.student_age = age
         self.student_gender = gender
         self.student_id = id
         self.student_grades = grades
+        self.student_current_major = current_major
+        self.student_future_major = future_major
 
     def to_dict(self):
         return {
@@ -82,7 +92,9 @@ class Student:
             "student_age": self.student_age,
             "student_gender": self.student_gender,
             "student_id": self.student_id,
-            "student_grades": self.student_grades
+            "student_grades": self.student_grades,
+            "student_current_major": self.student_current_major,
+            "student_future_major": self.student_future_major
         }
 
     student_name=""
@@ -90,6 +102,8 @@ class Student:
     student_gender=""
     student_id=""
     student_grades = []
+    student_current_major = {}
+    student_future_major = {}
 
     
 def read_png_files(folder_path):
@@ -271,11 +285,7 @@ class ExtractStudentInfo(APIView):
                     table_data.extend(matches)
                 table_data = process_table_data(table_data)
 
-            if ID and name and dob:
-                grade_file = generate_grade_csv_name(ID)
-                create_grade_csv(table_data, student_data_folder_path, grade_file)
-
-            student=Student(name,dob,gender,ID,table_data)
+            student=Student(name,dob,gender,ID,table_data,{},{})
 
             delete_all_files(png_folder_path)
 

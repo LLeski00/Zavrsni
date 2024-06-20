@@ -24,6 +24,7 @@
     "@babel/plugin-transform-class-properties": "^7.24.7",
     "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.19",
+    "fs": "^0.0.1-security",
     "react-router-dom": "^6.23.1"
   }
 }
