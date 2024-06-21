@@ -1,8 +1,7 @@
-import React, {Component} from "react";
-import {render} from "react-dom";
+import React, { Component } from "react";
+import { render } from "react-dom";
 import HomePage from "./HomePage";
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import Student from "./Student";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
     constructor(props) {
@@ -11,11 +10,11 @@ export default class App extends Component {
 
     render() {
         return (
-        <Router>
-            <Routes>
-                <Route path="/" element = {<HomePage/>}/>
-            </Routes>
-        </Router>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                </Routes>
+            </Router>
         );
     }
 }
