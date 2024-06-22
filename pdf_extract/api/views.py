@@ -574,8 +574,372 @@ class GetMajorData(APIView):
                 }
                 return Response(subjects, status=status.HTTP_200_OK)
        
-        return Response("error", status=status.HTTP_200_OK)
+        return Response("error", status=status.HTTP_404_NOT_FOUND)
     
+class GetTrasferData(APIView):
+
+    def post(self,request, format=None):
+        match request.body.decode('utf-8'):
+            case "110-120":
+                transfer = [
+                { "requiredSubjects": [2, 9], "recognizedSubject": 106 },
+                { "requiredSubjects": [8], "recognizedSubject": 105 },
+                { "requiredSubjects": [1], "recognizedSubject": 104 },
+                { "requiredSubjects": [3], "recognizedSubject": 107 },
+                { "requiredSubjects": [6], "recognizedSubject": 108 },
+                { "requiredSubjects": [14], "recognizedSubject": 111 },
+                { "requiredSubjects": [13], "recognizedSubject": 110 },
+                { "requiredSubjects": [7], "recognizedSubject": 109 },
+                { "requiredSubjects": [19], "recognizedSubject": 112 },
+                { "requiredSubjects": [11], "recognizedSubject": 113 },
+                { "requiredSubjects": [10], "recognizedSubject": 115 },
+                { "requiredSubjects": [5], "recognizedSubject": 119 },
+                { "requiredSubjects": [20], "recognizedSubject": 124 },
+                { "requiredSubjects": [18], "recognizedSubject": 120 }
+                ]
+            case "110-511":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 143 },
+                    { "requiredSubjects": [2], "recognizedSubject": 146 },
+                    { "requiredSubjects": [8], "recognizedSubject": 144 },
+                    { "requiredSubjects": [3], "recognizedSubject": 145 },
+                    { "requiredSubjects": [23], "recognizedSubject": 147 },
+                    { "requiredSubjects": [6], "recognizedSubject": 148 },
+                    { "requiredSubjects": [14], "recognizedSubject": 152 },
+                    { "requiredSubjects": [9], "recognizedSubject": 151 },
+                    { "requiredSubjects": [15], "recognizedSubject": 153 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 149 },
+                    { "requiredSubjects": [19], "recognizedSubject": 150 },
+                    { "requiredSubjects": [11], "recognizedSubject": 154 }
+                ]
+            case "110-512":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 143 },
+                    { "requiredSubjects": [2], "recognizedSubject": 146 },
+                    { "requiredSubjects": [8], "recognizedSubject": 144 },
+                    { "requiredSubjects": [3], "recognizedSubject": 145 },
+                    { "requiredSubjects": [23], "recognizedSubject": 147 },
+                    { "requiredSubjects": [6], "recognizedSubject": 148 },
+                    { "requiredSubjects": [14], "recognizedSubject": 152 },
+                    { "requiredSubjects": [9], "recognizedSubject": 151 },
+                    { "requiredSubjects": [15], "recognizedSubject": 153 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 149 },
+                    { "requiredSubjects": [19], "recognizedSubject": 150 },
+                    { "requiredSubjects": [11], "recognizedSubject": 154 },
+                    { "requiredSubjects": [16], "recognizedSubject": 185 },
+                    { "requiredSubjects": [20], "recognizedSubject": 184 },
+                    { "requiredSubjects": [21], "recognizedSubject": 183 },
+                    { "requiredSubjects": [10], "recognizedSubject": 188 },
+                    { "requiredSubjects": [4], "recognizedSubject": 189 }
+                ]
+            case "110-550":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 221 },
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 222 },
+                    { "requiredSubjects": [3], "recognizedSubject": 223 },
+                    { "requiredSubjects": [6], "recognizedSubject": 225 },
+                    { "requiredSubjects": [19, 3], "recognizedSubject": 229 },
+                    { "requiredSubjects": [10], "recognizedSubject": 228 },
+                    { "requiredSubjects": [14], "recognizedSubject": 227 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 226 },
+                    { "requiredSubjects": [11], "recognizedSubject": 230 },
+                    { "requiredSubjects": [16], "recognizedSubject": 231 }
+                ]
+            case "111-120":
+                transfer = [
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 106 },
+                    { "requiredSubjects": [8], "recognizedSubject": 105 },
+                    { "requiredSubjects": [1], "recognizedSubject": 104 },
+                    { "requiredSubjects": [3], "recognizedSubject": 107 },
+                    { "requiredSubjects": [6], "recognizedSubject": 108 },
+                    { "requiredSubjects": [14], "recognizedSubject": 111 },
+                    { "requiredSubjects": [13], "recognizedSubject": 110 },
+                    { "requiredSubjects": [7], "recognizedSubject": 109 },
+                    { "requiredSubjects": [19], "recognizedSubject": 112 },
+                    { "requiredSubjects": [11], "recognizedSubject": 113 },
+                    { "requiredSubjects": [10], "recognizedSubject": 115 },
+                    { "requiredSubjects": [5], "recognizedSubject": 119 },
+                    { "requiredSubjects": [20], "recognizedSubject": 124 },
+                    { "requiredSubjects": [18], "recognizedSubject": 120 },
+                    { "requiredSubjects": [32], "recognizedSubject": 121 },
+                    { "requiredSubjects": [45], "recognizedSubject": 123 },
+                    { "requiredSubjects": [29], "recognizedSubject": 128 },
+                    { "requiredSubjects": [34], "recognizedSubject": 130 },
+                    { "requiredSubjects": [35], "recognizedSubject": 138 },
+                    { "requiredSubjects": [43], "recognizedSubject": 140 }
+                ]
+            case "111-512":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 143 },
+                    { "requiredSubjects": [2], "recognizedSubject": 146 },
+                    { "requiredSubjects": [8], "recognizedSubject": 144 },
+                    { "requiredSubjects": [3], "recognizedSubject": 145 },
+                    { "requiredSubjects": [23], "recognizedSubject": 147 },
+                    { "requiredSubjects": [6], "recognizedSubject": 148 },
+                    { "requiredSubjects": [14], "recognizedSubject": 152 },
+                    { "requiredSubjects": [9], "recognizedSubject": 151 },
+                    { "requiredSubjects": [15], "recognizedSubject": 153 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 149 },
+                    { "requiredSubjects": [19], "recognizedSubject": 150 },
+                    { "requiredSubjects": [11], "recognizedSubject": 154 },
+                    { "requiredSubjects": [25, 36], "recognizedSubject": 182 },
+                    { "requiredSubjects": [20], "recognizedSubject": 184 },
+                    { "requiredSubjects": [21], "recognizedSubject": 183 },
+                    { "requiredSubjects": [16], "recognizedSubject": 185 },
+                    { "requiredSubjects": [35], "recognizedSubject": 187 },
+                    { "requiredSubjects": [10], "recognizedSubject": 188 },
+                    { "requiredSubjects": [4], "recognizedSubject": 189 },
+                    { "requiredSubjects": [38], "recognizedSubject": 200 },
+                    { "requiredSubjects": [32], "recognizedSubject": 202 },
+                    { "requiredSubjects": [27], "recognizedSubject": 203 },
+                    { "requiredSubjects": [34], "recognizedSubject": 204 },
+                    { "requiredSubjects": [29], "recognizedSubject": 213 }
+                ]
+            case "111-550":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 221 },
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 222 },
+                    { "requiredSubjects": [3], "recognizedSubject": 223 },
+                    { "requiredSubjects": [6], "recognizedSubject": 225 },
+                    { "requiredSubjects": [19, 3], "recognizedSubject": 229 },
+                    { "requiredSubjects": [10], "recognizedSubject": 228 },
+                    { "requiredSubjects": [14], "recognizedSubject": 227 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 226 },
+                    { "requiredSubjects": [11], "recognizedSubject": 230 },
+                    { "requiredSubjects": [16], "recognizedSubject": 231 },
+                    { "requiredSubjects": [32], "recognizedSubject": 232 },
+                    { "requiredSubjects": [45], "recognizedSubject": 233 },
+                    { "requiredSubjects": [29], "recognizedSubject": 236 },
+                    { "requiredSubjects": [28], "recognizedSubject": 239 },
+                    { "requiredSubjects": [34], "recognizedSubject": 246 }
+                ]
+            case "112-120":
+                transfer = [
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 106 },
+                    { "requiredSubjects": [8], "recognizedSubject": 105 },
+                    { "requiredSubjects": [1], "recognizedSubject": 104 },
+                    { "requiredSubjects": [3], "recognizedSubject": 107 },
+                    { "requiredSubjects": [6], "recognizedSubject": 108 },
+                    { "requiredSubjects": [14], "recognizedSubject": 111 },
+                    { "requiredSubjects": [13], "recognizedSubject": 110 },
+                    { "requiredSubjects": [7], "recognizedSubject": 109 },
+                    { "requiredSubjects": [19], "recognizedSubject": 112 },
+                    { "requiredSubjects": [11], "recognizedSubject": 113 },
+                    { "requiredSubjects": [10], "recognizedSubject": 115 },
+                    { "requiredSubjects": [5], "recognizedSubject": 119 },
+                    { "requiredSubjects": [20], "recognizedSubject": 124 },
+                    { "requiredSubjects": [18], "recognizedSubject": 120 },
+                    { "requiredSubjects": [50], "recognizedSubject": 121 },
+                    { "requiredSubjects": [61], "recognizedSubject": 123 },
+                    { "requiredSubjects": [57], "recognizedSubject": 125 },
+                    { "requiredSubjects": [53], "recognizedSubject": 128 },
+                    { "requiredSubjects": [47], "recognizedSubject": 126 },
+                    { "requiredSubjects": [54], "recognizedSubject": 138 },
+                    { "requiredSubjects": [60], "recognizedSubject": 140 }
+                ]
+            case "112-512":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 143 },
+                    { "requiredSubjects": [2], "recognizedSubject": 146 },
+                    { "requiredSubjects": [8], "recognizedSubject": 144 },
+                    { "requiredSubjects": [3], "recognizedSubject": 145 },
+                    { "requiredSubjects": [23], "recognizedSubject": 147 },
+                    { "requiredSubjects": [6], "recognizedSubject": 148 },
+                    { "requiredSubjects": [14], "recognizedSubject": 152 },
+                    { "requiredSubjects": [9], "recognizedSubject": 151 },
+                    { "requiredSubjects": [15], "recognizedSubject": 153 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 149 },
+                    { "requiredSubjects": [19], "recognizedSubject": 150 },
+                    { "requiredSubjects": [11], "recognizedSubject": 154 },
+                    { "requiredSubjects": [48, 56], "recognizedSubject": 182 },
+                    { "requiredSubjects": [20], "recognizedSubject": 184 },
+                    { "requiredSubjects": [21], "recognizedSubject": 183 },
+                    { "requiredSubjects": [16], "recognizedSubject": 185 },
+                    { "requiredSubjects": [54], "recognizedSubject": 187 },
+                    { "requiredSubjects": [10], "recognizedSubject": 188 },
+                    { "requiredSubjects": [4], "recognizedSubject": 189 },
+                    { "requiredSubjects": [47], "recognizedSubject": 192 },
+                    { "requiredSubjects": [58], "recognizedSubject": 200 },
+                    { "requiredSubjects": [50], "recognizedSubject": 202 },
+                    { "requiredSubjects": [52], "recognizedSubject": 203 },
+                    { "requiredSubjects": [53], "recognizedSubject": 213 }
+                ]
+            case "112-550":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 221 },
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 222 },
+                    { "requiredSubjects": [3], "recognizedSubject": 223 },
+                    { "requiredSubjects": [6], "recognizedSubject": 225 },
+                    { "requiredSubjects": [19, 3], "recognizedSubject": 229 },
+                    { "requiredSubjects": [10], "recognizedSubject": 228 },
+                    { "requiredSubjects": [14], "recognizedSubject": 227 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 226 },
+                    { "requiredSubjects": [11], "recognizedSubject": 230 },
+                    { "requiredSubjects": [16], "recognizedSubject": 231 },
+                    { "requiredSubjects": [50], "recognizedSubject": 232 },
+                    { "requiredSubjects": [61], "recognizedSubject": 233 },
+                    { "requiredSubjects": [53], "recognizedSubject": 236 },
+                    { "requiredSubjects": [51], "recognizedSubject": 239 },
+                    { "requiredSubjects": [57], "recognizedSubject": 238 },
+                    { "requiredSubjects": [47], "recognizedSubject": 237 }
+                ]
+            case "113-120":
+                transfer = [
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 106 },
+                    { "requiredSubjects": [8], "recognizedSubject": 105 },
+                    { "requiredSubjects": [1], "recognizedSubject": 104 },
+                    { "requiredSubjects": [3], "recognizedSubject": 107 },
+                    { "requiredSubjects": [6], "recognizedSubject": 108 },
+                    { "requiredSubjects": [14], "recognizedSubject": 111 },
+                    { "requiredSubjects": [13], "recognizedSubject": 110 },
+                    { "requiredSubjects": [7], "recognizedSubject": 109 },
+                    { "requiredSubjects": [19], "recognizedSubject": 112 },
+                    { "requiredSubjects": [11], "recognizedSubject": 113 },
+                    { "requiredSubjects": [10], "recognizedSubject": 115 },
+                    { "requiredSubjects": [5], "recognizedSubject": 119 },
+                    { "requiredSubjects": [20], "recognizedSubject": 124 },
+                    { "requiredSubjects": [18], "recognizedSubject": 120 }
+                ]
+            case "113-511":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 143 },
+                    { "requiredSubjects": [2], "recognizedSubject": 146 },
+                    { "requiredSubjects": [8], "recognizedSubject": 144 },
+                    { "requiredSubjects": [3], "recognizedSubject": 145 },
+                    { "requiredSubjects": [23], "recognizedSubject": 147 },
+                    { "requiredSubjects": [6], "recognizedSubject": 148 },
+                    { "requiredSubjects": [14], "recognizedSubject": 152 },
+                    { "requiredSubjects": [9], "recognizedSubject": 151 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 149 },
+                    { "requiredSubjects": [19], "recognizedSubject": 150 },
+                    { "requiredSubjects": [11], "recognizedSubject": 154 },
+                    { "requiredSubjects": [65], "recognizedSubject": 155 },
+                    { "requiredSubjects": [66], "recognizedSubject": 157 },
+                    { "requiredSubjects": [67], "recognizedSubject": 158 },
+                    { "requiredSubjects": [64], "recognizedSubject": 156 },
+                    { "requiredSubjects": [68], "recognizedSubject": 159 },
+                    { "requiredSubjects": [74], "recognizedSubject": 163 },
+                    { "requiredSubjects": [72], "recognizedSubject": 161 },
+                    { "requiredSubjects": [69], "recognizedSubject": 160 },
+                    { "requiredSubjects": [76], "recognizedSubject": 169 },
+                    { "requiredSubjects": [73], "recognizedSubject": 166 },
+                    { "requiredSubjects": [77], "recognizedSubject": 168 },
+                    { "requiredSubjects": [78], "recognizedSubject": 172 },
+                    { "requiredSubjects": [80], "recognizedSubject": 180 }
+                ]
+            case "114-120":
+                transfer = [
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 106 },
+                    { "requiredSubjects": [8], "recognizedSubject": 105 },
+                    { "requiredSubjects": [1], "recognizedSubject": 104 },
+                    { "requiredSubjects": [3], "recognizedSubject": 107 },
+                    { "requiredSubjects": [6], "recognizedSubject": 108 },
+                    { "requiredSubjects": [14], "recognizedSubject": 111 },
+                    { "requiredSubjects": [13], "recognizedSubject": 110 },
+                    { "requiredSubjects": [7], "recognizedSubject": 109 },
+                    { "requiredSubjects": [19], "recognizedSubject": 112 },
+                    { "requiredSubjects": [11], "recognizedSubject": 113 },
+                    { "requiredSubjects": [10], "recognizedSubject": 115 },
+                    { "requiredSubjects": [5], "recognizedSubject": 119 },
+                    { "requiredSubjects": [20], "recognizedSubject": 124 },
+                    { "requiredSubjects": [18], "recognizedSubject": 120 },
+                    { "requiredSubjects": [86], "recognizedSubject": 121 },
+                    { "requiredSubjects": [100], "recognizedSubject": 123 },
+                    { "requiredSubjects": [89], "recognizedSubject": 128 },
+                    { "requiredSubjects": [88], "recognizedSubject": 130 },
+                    { "requiredSubjects": [84], "recognizedSubject": 138 },
+                    { "requiredSubjects": [96], "recognizedSubject": 140 }
+                ]
+            case "114-512":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 143 },
+                    { "requiredSubjects": [2], "recognizedSubject": 146 },
+                    { "requiredSubjects": [8], "recognizedSubject": 144 },
+                    { "requiredSubjects": [3], "recognizedSubject": 145 },
+                    { "requiredSubjects": [23], "recognizedSubject": 147 },
+                    { "requiredSubjects": [6], "recognizedSubject": 148 },
+                    { "requiredSubjects": [14], "recognizedSubject": 152 },
+                    { "requiredSubjects": [9], "recognizedSubject": 151 },
+                    { "requiredSubjects": [15], "recognizedSubject": 153 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 149 },
+                    { "requiredSubjects": [19], "recognizedSubject": 150 },
+                    { "requiredSubjects": [11], "recognizedSubject": 154 },
+                    { "requiredSubjects": [92, 97], "recognizedSubject": 182 },
+                    { "requiredSubjects": [20], "recognizedSubject": 184 },
+                    { "requiredSubjects": [21], "recognizedSubject": 183 },
+                    { "requiredSubjects": [16], "recognizedSubject": 185 },
+                    { "requiredSubjects": [84], "recognizedSubject": 187 },
+                    { "requiredSubjects": [10], "recognizedSubject": 188 },
+                    { "requiredSubjects": [4], "recognizedSubject": 189 },
+                    { "requiredSubjects": [86], "recognizedSubject": 202 },
+                    { "requiredSubjects": [93], "recognizedSubject": 203 },
+                    { "requiredSubjects": [88], "recognizedSubject": 204 },
+                    { "requiredSubjects": [89], "recognizedSubject": 213 }
+                ]
+            case "114-550":
+                transfer = [
+                    { "requiredSubjects": [1], "recognizedSubject": 221 },
+                    { "requiredSubjects": [2, 9], "recognizedSubject": 222 },
+                    { "requiredSubjects": [3], "recognizedSubject": 223 },
+                    { "requiredSubjects": [6], "recognizedSubject": 225 },
+                    { "requiredSubjects": [19, 3], "recognizedSubject": 229 },
+                    { "requiredSubjects": [10], "recognizedSubject": 228 },
+                    { "requiredSubjects": [14], "recognizedSubject": 227 },
+                    { "requiredSubjects": [7, 18], "recognizedSubject": 226 },
+                    { "requiredSubjects": [11], "recognizedSubject": 230 },
+                    { "requiredSubjects": [16], "recognizedSubject": 231 },
+                    { "requiredSubjects": [86], "recognizedSubject": 232 },
+                    { "requiredSubjects": [100], "recognizedSubject": 233 },
+                    { "requiredSubjects": [89], "recognizedSubject": 236 },
+                    { "requiredSubjects": [85], "recognizedSubject": 239 },
+                    { "requiredSubjects": [88], "recognizedSubject": 246 }
+                ]
+            case "120-110":
+                transfer = [
+                    { "requiredSubjects": [104], "recognizedSubject": 1 },
+                    { "requiredSubjects": [106], "recognizedSubject": 2 },
+                    { "requiredSubjects": [107], "recognizedSubject": 3 },
+                    { "requiredSubjects": [108], "recognizedSubject": 6 },
+                    { "requiredSubjects": [119], "recognizedSubject": 5 },
+                    { "requiredSubjects": [105], "recognizedSubject": 8 },
+                    { "requiredSubjects": [109], "recognizedSubject": 7 },
+                    { "requiredSubjects": [115], "recognizedSubject": 10 },
+                    { "requiredSubjects": [112], "recognizedSubject": 19 },
+                    { "requiredSubjects": [113], "recognizedSubject": 11 },
+                    { "requiredSubjects": [110], "recognizedSubject": 13 },
+                    { "requiredSubjects": [124], "recognizedSubject": 20 },
+                    { "requiredSubjects": [120], "recognizedSubject": 18 }
+                ]
+            case "120-550":
+                transfer = [
+                    { "requiredSubjects": [104], "recognizedSubject": 221 },
+                    { "requiredSubjects": [106], "recognizedSubject": 222 },
+                    { "requiredSubjects": [107], "recognizedSubject": 223 },
+                    { "requiredSubjects": [108], "recognizedSubject": 225 },
+                    { "requiredSubjects": [107, 112], "recognizedSubject": 229 },
+                    { "requiredSubjects": [115], "recognizedSubject": 228 },
+                    { "requiredSubjects": [111], "recognizedSubject": 227 },
+                    { "requiredSubjects": [109, 120], "recognizedSubject": 226 },
+                    { "requiredSubjects": [113], "recognizedSubject": 230 },
+                    { "requiredSubjects": [121], "recognizedSubject": 232 },
+                    { "requiredSubjects": [122, 117], "recognizedSubject": 234 },
+                    { "requiredSubjects": [123], "recognizedSubject": 233 },
+                    { "requiredSubjects": [128], "recognizedSubject": 236 },
+                    { "requiredSubjects": [141], "recognizedSubject": 231 },
+                    { "requiredSubjects": [129], "recognizedSubject": 235 },
+                    { "requiredSubjects": [116], "recognizedSubject": 239 },
+                    { "requiredSubjects": [125], "recognizedSubject": 238 },
+                    { "requiredSubjects": [126], "recognizedSubject": 237 },
+                    { "requiredSubjects": [127], "recognizedSubject": 241 },
+                    { "requiredSubjects": [134], "recognizedSubject": 242 },
+                    { "requiredSubjects": [137], "recognizedSubject": 244 },
+                    { "requiredSubjects": [130], "recognizedSubject": 246 },
+                    { "requiredSubjects": [133], "recognizedSubject": 250 }
+                ]
+            case _:
+                return Response("Not found", status=status.HTTP_404_NOT_FOUND)
+        return Response(transfer, status=status.HTTP_200_OK)
+
 class DeletePdfFile(APIView):
 
     def get(self,request, format=None):
@@ -638,7 +1002,7 @@ class Student:
     student_age=""
     student_gender=""
     student_id=""
-    student_grades = []
+    student_grades = [{}]
     student_current_major = {}
     student_future_major = {}
 
@@ -701,7 +1065,7 @@ def process_table_data(table_data):
     processed_data = []
     for line in table_data:
         # Remove specified symbols
-        line = re.sub(r'[.,:;_\/\\|\(\)\[\]\-—=+]', '', line)
+        line = re.sub(r'[.,:;_\/\\|\(\)\[\]\-—=+"]', '', line)
         # Remove first encountered numbers
         line = re.sub(r'^\d+\s+', '', line)
         # Remove numbers with more than a single digit
@@ -746,7 +1110,10 @@ def process_table_data(table_data):
         line = re.sub(r'^(?![\s\S]*\d\s*$).*?$', '', line)
 
         if line:
-            processed_data.append(line)
+            name = line[:-2]
+            grade = line[len(line)-1]
+            subject = {"name": name, "grade": grade}
+            processed_data.append(subject)
         
     return processed_data
 
@@ -820,9 +1187,9 @@ class ExtractStudentInfo(APIView):
                 for line in processed_text:
                     matches = re.findall(table_pattern, line, re.MULTILINE)
                     table_data.extend(matches)
-                table_data = process_table_data(table_data)
+                subjects = process_table_data(table_data)
 
-            student=Student(name,dob,gender,ID,table_data,{},{})
+            student=Student(name,dob,gender,ID,subjects,{},{})
 
             delete_all_files(png_folder_path)
 
