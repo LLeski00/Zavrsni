@@ -14,29 +14,32 @@ html {
     flex-direction: column;
     text-align: center;
     align-items: center;
-} 
+}
 
-.home-page-content select{
+.home-page-content select {
     margin: 20px;
     height: 30px;
     width: 50%;
 }
 
-.home-page-content option{
+.home-page-content option {
     width: 40px;
 }
 
 .home-page-content input[type="file"] {
     display: none;
-  }
-  
+}
+
 .home-page-content .custom-file-upload {
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
     color: white;
-    background-color: #34568B;
+    background-color: #34568b;
+    border-radius: 10px;
+    text-align: center;
+    font-size: x-large;
 }
 
 .home-page-content .file-upload-div {
@@ -46,5 +49,45 @@ html {
 }
 
 .home-page-content .file-upload-div button {
+    margin: 10px;
+}
+
+.recognized-subjects-content .transfer-block {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.recognized-subjects-content .current-student-major {
+    background-color: #34568b;
+    margin: 10px;
+}
+
+.recognized-subjects-content .current-student-major-semester {
+    background-color: #2d4a78;
+    margin: 20px;
+}
+
+.recognized-subjects-content .passed-subject {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.recognized-subjects-content .passed-subject input {
+    height: 15px;
+    width: 20px;
+    margin-left: 20px;
+}
+
+.recognized-subjects-content .recognized-student-grades {
+    background-color: #34568b;
+    margin: 10px;
+}
+
+.recognized-subjects-content h1,
+h2,
+h3,
+p {
     margin: 10px;
 }

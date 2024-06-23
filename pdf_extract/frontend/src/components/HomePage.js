@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useRef } from "react";
 import { useState } from "react";
+import RecognizedSubjects from "./RecognizedSubjects";
 
 const HomePage = () => {
     const formData = useRef(new FormData());
@@ -30,7 +31,6 @@ const HomePage = () => {
             }
             const res = await response.json();
             await setMajorsData(res); // Assuming the API returns JSON
-            console.log(res);
         } catch (error) {
             setError(error);
         } finally {
@@ -41,13 +41,13 @@ const HomePage = () => {
     const handleCurrentMajorSelect = async (event) => {
         setCurrentStudentMajorId(event.target.value);
         setCurrentStudentMajor(await getSubjects(event.target.value));
-        console.log(event.target.value);
+        console.log("Current student major: ", event.target.value);
     };
 
     const handleFutureMajorSelect = async (event) => {
         setFutureStudentMajorId(event.target.value);
         setFutureStudentMajor(await getSubjects(event.target.value));
-        console.log(event.target.value);
+        console.log("Future student major: ", event.target.value);
     };
 
     const handleFileUpload = (event) => {
@@ -57,17 +57,17 @@ const HomePage = () => {
     };
 
     const handleFileUploadClick = async () => {
+        setStudentData(null);
         setIsLoading(true);
         if (!currentStudentMajor || !futureStudentMajor) {
-            console.log(currentStudentMajor);
-            console.log(futureStudentMajor);
+            console.log("Current student major: ", currentStudentMajor);
+            console.log("Future student major: ", futureStudentMajor);
             alert("Not enough data.");
             setIsLoading(false);
             return;
         }
 
         setTransferId(currentStudentMajorId + "-" + futureStudentMajorId);
-        console.log("File uploaded: ", formData.current.get("file"));
 
         await fetch("http://127.0.0.1:8000/api/extract", {
             // Your POST endpoint
@@ -82,10 +82,10 @@ const HomePage = () => {
                     success.student_current_major = currentStudentMajor;
                     success.student_future_major = futureStudentMajor;
                     setStudentData(success);
-                    console.log("The data of the student", success);
-                    getRecognizedSubjects(
-                        success,
-                        currentStudentMajorId + "-" + futureStudentMajorId
+                    console.log("The data of the student: ", success);
+                    console.log(
+                        "OCR Recognized subjects: ",
+                        success.student_grades
                     );
                     deletePdfFile();
                     setIsLoading(false);
@@ -127,7 +127,7 @@ const HomePage = () => {
             .then(
                 (success) => {
                     subjects = success;
-                    console.log(success);
+                    console.log("Subjects of the major: ", success);
                     setIsLoading(false);
                 } // Handle the success response object
             )
@@ -136,98 +136,6 @@ const HomePage = () => {
             );
 
         return subjects;
-    };
-
-    const getRecognizedSubjects = async (student, transfer) => {
-        let requiredSubjects = [];
-        let temp;
-        let recognizedSubjects = [];
-        let transferData = [];
-        console.log(currentStudentMajor);
-        for (const x in currentStudentMajor) {
-            for (const y in currentStudentMajor[x]) {
-                for (const z in student.student_grades) {
-                    if (
-                        currentStudentMajor[x][y].name ==
-                        student.student_grades[z].name
-                    ) {
-                        console.log("Match: ", currentStudentMajor[x][y].name);
-                        temp = currentStudentMajor[x][y];
-                        temp.grade = student.student_grades[z].grade;
-                        requiredSubjects.push(temp);
-                    }
-                }
-            }
-        }
-
-        console.log(requiredSubjects);
-
-        await fetch("http://127.0.0.1:8000/api/get-transfer-data", {
-            method: "POST",
-            body: transfer,
-        })
-            .then(
-                (response) => response.json() // if the response is a JSON object
-            )
-            .then(
-                (success) => {
-                    transferData = success;
-                    console.log(success);
-                    setIsLoading(false);
-                } // Handle the success response object
-            )
-            .catch(
-                (error) => console.log(error) // Handle the error response object
-            );
-
-        console.log(transferData);
-
-        for (const i in transferData) {
-            for (const j in transferData[i].requiredSubjects) {
-                for (const k in requiredSubjects) {
-                    console.log(
-                        transferData[i].requiredSubjects[j],
-                        requiredSubjects[k].id
-                    );
-                    if (
-                        transferData[i].requiredSubjects[j] ==
-                        requiredSubjects[k].id
-                    ) {
-                        console.log(
-                            "Recognized subject: ",
-                            transferData[i].recognizedSubject
-                        );
-
-                        for (const l in futureStudentMajor) {
-                            for (const m in futureStudentMajor[l]) {
-                                if (
-                                    transferData[i].recognizedSubject ==
-                                    futureStudentMajor[l][m].id
-                                ) {
-                                    temp = futureStudentMajor[l][m];
-                                    temp.grade = requiredSubjects[k].grade;
-                                    recognizedSubjects.push(
-                                        futureStudentMajor[l][m]
-                                    );
-                                }
-                            }
-                        }
-
-                        break;
-                    }
-                }
-            }
-        }
-
-        console.log(
-            "Required: ",
-            requiredSubjects,
-            "Recognized",
-            recognizedSubjects
-        );
-
-        setRequiredStudentSubjects(requiredSubjects);
-        setRecognizedStudentSubjects(recognizedSubjects);
     };
 
     return (
@@ -301,34 +209,32 @@ const HomePage = () => {
                         <h2>Promjena studija: </h2>
                         <p>{transferId}</p>
 
-                        <h2>Ocjene:</h2>
-                        <div className="student-grades">
-                            {studentData.student_grades.map((subject) => (
-                                <p key={subject.name}>
-                                    {subject.name} {subject.grade}
-                                </p>
-                            ))}
-                        </div>
-
-                        <h2>Prepoznate ocjene:</h2>
-                        <div className="required-student-grades">
-                            {requiredStudentSubjects &&
-                                requiredStudentSubjects.map((subject) => (
-                                    <p key={subject.name}>
-                                        {subject.name} {subject.grade}
-                                    </p>
-                                ))}
-                        </div>
-
-                        <h2>Priznate ocjene:</h2>
-                        <div className="recognized-student-grades">
-                            {recognizedStudentSubjects &&
-                                recognizedStudentSubjects.map((subject) => (
-                                    <p key={subject.name}>
-                                        {subject.name} {subject.grade}
-                                    </p>
-                                ))}
-                        </div>
+                        {studentData && (
+                            <RecognizedSubjects
+                                student={studentData}
+                                transfer={
+                                    currentStudentMajorId +
+                                    "-" +
+                                    futureStudentMajorId
+                                }
+                                requiredStudentSubjects={
+                                    requiredStudentSubjects
+                                }
+                                setRequiredStudentSubjects={
+                                    setRequiredStudentSubjects
+                                }
+                                recognizedStudentSubjects={
+                                    recognizedStudentSubjects
+                                }
+                                setRecognizedStudentSubjects={
+                                    setRecognizedStudentSubjects
+                                }
+                                currentStudentMajor={currentStudentMajor}
+                                futureStudentMajor={futureStudentMajor}
+                                isLoading={isLoading}
+                                setIsLoading={setIsLoading}
+                            />
+                        )}
                     </div>
                 )}
             </div>
