@@ -15,15 +15,14 @@ const RecognizedSubjects = ({
     setIsLoading,
 }) => {
     useEffect(() => {
-        getRecognizedSubjects(student, transfer);
+        getRequiredSubjects(student, transfer);
     }, [student]);
 
-    const getRecognizedSubjects = async (student, transfer) => {
+    const [transferData, setTransferData] = useState(null);
+
+    const getRequiredSubjects = async (student, transfer) => {
         let requiredSubjects = [];
         let temp;
-        let tempGrades = [];
-        let matches;
-        let recognizedSubjects = [];
         let transferData = [];
 
         await fetch("http://127.0.0.1:8000/api/get-transfer-data", {
@@ -36,6 +35,7 @@ const RecognizedSubjects = ({
             .then(
                 (success) => {
                     transferData = success;
+                    setTransferData(success);
                     setIsLoading(false);
                 } // Handle the success response object
             )
@@ -64,6 +64,16 @@ const RecognizedSubjects = ({
             requiredSubjects
         );
 
+        setRequiredStudentSubjects(requiredSubjects);
+        getRecognizedSubjects(requiredSubjects, transferData);
+    };
+
+    const getRecognizedSubjects = (requiredSubjects, transferData) => {
+        let tempGrades = [];
+        let matches;
+        let recognizedSubjects = [];
+        let temp;
+
         for (const i in transferData) {
             matches = 0;
             for (const j in transferData[i].requiredSubjects) {
@@ -73,6 +83,14 @@ const RecognizedSubjects = ({
                         requiredSubjects[k].id
                     ) {
                         matches++;
+                        console.log(
+                            "Match: ",
+                            requiredSubjects[k].name,
+                            " ID: ",
+                            requiredSubjects[k].id,
+                            "Grade: ",
+                            requiredSubjects[k].grade
+                        );
                         tempGrades.push(requiredSubjects[k].grade);
 
                         if (
@@ -91,7 +109,15 @@ const RecognizedSubjects = ({
                                     ) {
                                         temp = futureStudentMajor[l][m];
                                         temp.grade = 0;
+
                                         for (const ind in tempGrades) {
+                                            console.log(
+                                                temp.grade,
+                                                "=",
+                                                temp.grade,
+                                                "+",
+                                                tempGrades[ind]
+                                            );
                                             temp.grade =
                                                 Number(temp.grade) +
                                                 Number(tempGrades[ind]);
@@ -99,29 +125,71 @@ const RecognizedSubjects = ({
                                         temp.grade = Math.round(
                                             temp.grade / tempGrades.length
                                         );
+
                                         recognizedSubjects.push(temp);
-                                        tempGrades = [];
+                                        tempGrades.length = 0;
                                         break;
                                     }
                                 }
                             }
                         }
-
-                        break;
                     }
+                }
+            }
+            tempGrades.length = 0;
+        }
+
+        console.log("Recognized", recognizedSubjects);
+
+        setRecognizedStudentSubjects(recognizedSubjects);
+    };
+
+    const handleSubjectUpdate = (event) => {
+        let requiredSubjects = requiredStudentSubjects;
+        console.log(event.target.getAttribute("custom-key"));
+        console.log(event.target.value);
+        let subjectId = event.target.getAttribute("custom-key");
+        let subjectGrade = event.target.value;
+        for (const i in requiredSubjects) {
+            if (requiredSubjects[i].id == subjectId) {
+                console.log(
+                    "Changed subject: ",
+                    requiredSubjects[i].name,
+                    " Grade: ",
+                    requiredSubjects[i].grade
+                );
+                if (subjectGrade < 1) {
+                    requiredSubjects.splice(i, 1);
+                    setRequiredStudentSubjects(requiredSubjects);
+                    getRecognizedSubjects(requiredSubjects, transferData);
+                    return;
+                } else {
+                    requiredSubjects[i].grade = subjectGrade;
+                    setRequiredStudentSubjects(requiredSubjects);
+                    getRecognizedSubjects(requiredSubjects, transferData);
+                    return;
                 }
             }
         }
 
-        console.log(
-            "Required: ",
-            requiredSubjects,
-            "Recognized",
-            recognizedSubjects
-        );
+        if (subjectGrade < 1) return;
 
-        setRequiredStudentSubjects(requiredSubjects);
-        setRecognizedStudentSubjects(recognizedSubjects);
+        for (const x in currentStudentMajor) {
+            for (const y in currentStudentMajor[x]) {
+                if (currentStudentMajor[x][y].id == subjectId) {
+                    console.log(
+                        "Changed subject: ",
+                        currentStudentMajor[x][y].name
+                    );
+                    let temp = currentStudentMajor[x][y];
+                    temp.grade = subjectGrade;
+                    requiredSubjects.push(temp);
+                    setRequiredStudentSubjects(requiredSubjects);
+                    getRecognizedSubjects(requiredSubjects, transferData);
+                    return;
+                }
+            }
+        }
     };
 
     return (
@@ -135,9 +203,11 @@ const RecognizedSubjects = ({
                                 (keyName, i) => (
                                     <React.Fragment key={i}>
                                         <div className="current-student-major-semester">
-                                            <h3>{keyName}. semestar</h3>
-                                            {currentStudentMajor[keyName].map(
-                                                (subject, index) => (
+                                            <form className="grades-form">
+                                                <h3>{keyName}. semestar</h3>
+                                                {currentStudentMajor[
+                                                    keyName
+                                                ].map((subject, index) => (
                                                     <div
                                                         className="passed-subject"
                                                         key={index}
@@ -145,6 +215,9 @@ const RecognizedSubjects = ({
                                                         <p>{subject.name}</p>
                                                         <input
                                                             type="text"
+                                                            custom-key={
+                                                                subject.id
+                                                            }
                                                             defaultValue={
                                                                 requiredStudentSubjects[
                                                                     requiredStudentSubjects.findIndex(
@@ -161,10 +234,15 @@ const RecognizedSubjects = ({
                                                                     )
                                                                 ].grade
                                                             }
+                                                            onChange={() =>
+                                                                handleSubjectUpdate(
+                                                                    event
+                                                                )
+                                                            }
                                                         ></input>
                                                     </div>
-                                                )
-                                            )}
+                                                ))}
+                                            </form>
                                         </div>
                                     </React.Fragment>
                                 )
@@ -181,6 +259,8 @@ const RecognizedSubjects = ({
                             ))}
                     </div>
                 </div>
+
+                <button className="update-grade">Update</button>
             </div>
         </div>
     );

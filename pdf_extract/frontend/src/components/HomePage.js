@@ -58,6 +58,8 @@ const HomePage = () => {
 
     const handleFileUploadClick = async () => {
         setStudentData(null);
+        setRecognizedStudentSubjects(null);
+        setRequiredStudentSubjects(null);
         setIsLoading(true);
         if (!currentStudentMajor || !futureStudentMajor) {
             console.log("Current student major: ", currentStudentMajor);
