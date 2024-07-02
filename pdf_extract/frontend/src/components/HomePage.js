@@ -146,47 +146,51 @@ const HomePage = () => {
                 <h1>Prebacivanje smjerova</h1>
 
                 <div className="select-majors">
-                    <label htmlFor="current-major">
-                        Studentov trenutni smjer:
-                    </label>
+                    <div className="current-major-select">
+                        <label htmlFor="current-major">
+                            Studentov trenutni smjer:
+                        </label>
 
-                    <select
-                        name="current-major"
-                        id="current-major-select"
-                        onChange={() => handleCurrentMajorSelect(event)}
-                    >
-                        <option value=""></option>
-                        {majorsData &&
-                            majorsData.map((currentMajor) => (
-                                <option
-                                    key={currentMajor.id}
-                                    value={currentMajor.id}
-                                >
-                                    {currentMajor.name}
-                                </option>
-                            ))}
-                    </select>
+                        <select
+                            name="current-major"
+                            id="current-major-select"
+                            onChange={() => handleCurrentMajorSelect(event)}
+                        >
+                            <option value=""></option>
+                            {majorsData &&
+                                majorsData.map((currentMajor) => (
+                                    <option
+                                        key={currentMajor.id}
+                                        value={currentMajor.id}
+                                    >
+                                        {currentMajor.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
 
-                    <label htmlFor="future-major">
-                        Smjer na koji se student prebacuje:
-                    </label>
+                    <div className="future-major-select">
+                        <label htmlFor="future-major">
+                            Smjer na koji se student prebacuje:
+                        </label>
 
-                    <select
-                        name="future-major"
-                        id="future-major-select"
-                        onChange={() => handleFutureMajorSelect(event)}
-                    >
-                        <option value=""></option>
-                        {majorsData &&
-                            majorsData.map((futureMajor) => (
-                                <option
-                                    key={futureMajor.id}
-                                    value={futureMajor.id}
-                                >
-                                    {futureMajor.name}
-                                </option>
-                            ))}
-                    </select>
+                        <select
+                            name="future-major"
+                            id="future-major-select"
+                            onChange={() => handleFutureMajorSelect(event)}
+                        >
+                            <option value=""></option>
+                            {majorsData &&
+                                majorsData.map((futureMajor) => (
+                                    <option
+                                        key={futureMajor.id}
+                                        value={futureMajor.id}
+                                    >
+                                        {futureMajor.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
                 </div>
 
                 <div className="file-upload-div">
@@ -203,13 +207,12 @@ const HomePage = () => {
                     <button onClick={handleFileUploadClick}>Confirm</button>
                 </div>
 
-                {isLoading && <p>Loading...</p>}
+                {isLoading && <p className="loading">Loading...</p>}
                 {studentData && (
                     <div className="student-info">
-                        <p>Student: {studentData.student_name}</p>
-
-                        <h2>Promjena studija: </h2>
-                        <p>{transferId}</p>
+                        <h2 className="student-name">
+                            Student: {studentData.student_name}
+                        </h2>
 
                         {studentData && (
                             <RecognizedSubjects

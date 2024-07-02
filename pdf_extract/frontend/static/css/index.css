@@ -3,23 +3,40 @@ html {
     color: white;
 }
 
+body {
+    margin: 0;
+}
+
 .home-page-content h1 {
+    top: 0;
     margin: 0;
     text-align: center;
+    margin-bottom: 50px;
+    background-color: #343434;
+    padding: 30px;
 }
 
 .home-page-content .select-majors {
     display: flex;
     margin: 20px;
-    flex-direction: column;
-    text-align: center;
+    justify-content: space-evenly;
+    text-align: left;
     align-items: center;
 }
 
-.home-page-content select {
+.home-page-content .current-major-select,
+.future-major-select {
+    display: flex;
     margin: 20px;
-    height: 30px;
-    width: 50%;
+    flex-direction: column;
+    font-size: x-large;
+}
+
+.home-page-content select {
+    margin: auto;
+    margin-top: 15px;
+    height: 50px;
+    width: 100%;
 }
 
 .home-page-content option {
@@ -44,28 +61,50 @@ html {
 
 .home-page-content .file-upload-div {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
 }
 
 .home-page-content .file-upload-div button {
     margin: 10px;
+    border-radius: 10px;
+    width: 130px;
+    height: 40px;
+    font-size: medium;
 }
+
+.home-page-content .loading {
+    text-align: center;
+}
+
+.home-page-content .student-name {
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 25px;
+}
+
+/*Recognized subjects component*/
 
 .recognized-subjects-content .transfer-block {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    background-color: #304f81;
 }
 
 .recognized-subjects-content .current-student-major {
     background-color: #34568b;
     margin: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px 10px #1d2f4d;
 }
 
 .recognized-subjects-content .current-student-major-semester {
     background-color: #2d4a78;
     margin: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px 2px #213455;
 }
 
 .recognized-subjects-content .passed-subject {
@@ -78,11 +117,27 @@ html {
     height: 15px;
     width: 20px;
     margin-left: 20px;
+    margin-right: 10px;
 }
 
 .recognized-subjects-content .recognized-student-grades {
     background-color: #34568b;
     margin: 10px;
+    margin-top: 20px;
+    box-shadow: 10px 10px 10px 10px #1d2f4d;
+    border-radius: 10px;
+}
+
+.recognized-subjects-content .recognized-student-grades-list {
+    background-color: #2d4a78;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 2px 2px 2px 2px #213455;
+}
+
+.recognized-subjects-content .recognized-student-grades-list p {
+    margin: 15px;
 }
 
 .recognized-subjects-content h1,

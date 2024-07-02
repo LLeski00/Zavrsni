@@ -251,16 +251,16 @@ const RecognizedSubjects = ({
 
                     <div className="recognized-student-grades">
                         <h2>Priznate ocjene:</h2>
-                        {recognizedStudentSubjects &&
-                            recognizedStudentSubjects.map((subject) => (
-                                <p key={subject.name}>
-                                    {subject.name} | Ocjena: {subject.grade}
-                                </p>
-                            ))}
+                        <div className="recognized-student-grades-list">
+                            {recognizedStudentSubjects &&
+                                recognizedStudentSubjects.map((subject) => (
+                                    <p key={subject.name}>
+                                        {subject.name} | Ocjena: {subject.grade}
+                                    </p>
+                                ))}
+                        </div>
                     </div>
                 </div>
-
-                <button className="update-grade">Update</button>
             </div>
         </div>
     );
