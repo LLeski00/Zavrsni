@@ -11,12 +11,10 @@ const HomePage = () => {
     const [currentStudentMajorId, setCurrentStudentMajorId] = useState(null);
     const [futureStudentMajorId, setFutureStudentMajorId] = useState(null);
     const [fileName, setFileName] = useState("");
-    const [transferId, setTransferId] = useState("");
     const [requiredStudentSubjects, setRequiredStudentSubjects] =
         useState(null);
     const [recognizedStudentSubjects, setRecognizedStudentSubjects] =
         useState(null);
-    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -68,8 +66,6 @@ const HomePage = () => {
             setIsLoading(false);
             return;
         }
-
-        setTransferId(currentStudentMajorId + "-" + futureStudentMajorId);
 
         await fetch("http://127.0.0.1:8000/api/extract", {
             // Your POST endpoint
@@ -236,7 +232,6 @@ const HomePage = () => {
                                 }
                                 currentStudentMajor={currentStudentMajor}
                                 futureStudentMajor={futureStudentMajor}
-                                isLoading={isLoading}
                                 setIsLoading={setIsLoading}
                             />
                         )}

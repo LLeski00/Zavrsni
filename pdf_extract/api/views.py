@@ -1,11 +1,8 @@
 from django.shortcuts import render
-from rest_framework import generics, status
-from .serializers import StudentSerializer, CreateStudentSerializer
-from .models import Student
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .forms import UploadFileForm
-from django.http import HttpResponse
 import csv
 import fitz  # PyMuPDF, imported as fitz for backward compatibility reasons
 import cv2
@@ -13,21 +10,7 @@ import pytesseract
 import os
 import re
 from django.core.files.storage import FileSystemStorage
-from django.utils import decorators
 from rest_framework.parsers import MultiPartParser, FormParser
-
-# Create your views here.
-
-class StudentView(generics.ListAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-
-class GetStudent(APIView):
-
-    def get(self,request, format=None):
-        majors = "kumpr"
-
-        return Response(majors, status=status.HTTP_200_OK)
     
 class GetData(APIView):
 
@@ -946,36 +929,6 @@ class DeletePdfFile(APIView):
         pdf_folder_path = r'./api/documents'
         delete_all_files(pdf_folder_path)
         return Response("Successfuly deleted the pdf file from temp folder", status=status.HTTP_200_OK)
-
-class CreateStudentView(APIView):
-    serializer_class = CreateStudentSerializer
-
-    def post(self, request, format=None):
-        if not self.request.session.exists(self.request.session.session_key):
-            self.request.session.create()
-
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            guest_can_pause = serializer.data.get('guest_can_pause')
-            votes_to_skip = serializer.data.get('votes_to_skip')
-            host = self.request.session.session_key
-            queryset = Student.objects.filter(host = host)
-            if queryset.exists():
-                student = queryset[0]
-                student.guest_can_pause = guest_can_pause
-                student.votes_to_skip = votes_to_skip
-                student.save(update_fields=['guest_can_pause', 'votes_to_skip'])
-                return Response(StudentSerializer(student).data, status=status.HTTP_200_OK)
-            else:
-                student = Student(host=host,guest_can_pause = guest_can_pause, votes_to_skip = votes_to_skip)
-                student.save()
-                return Response(StudentSerializer(student).data, status=status.HTTP_201_CREATED)
-            
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
-    
-class Subject:
-    subject_name=""
-    subject_grade=0
 
 class Student:
     def __init__(self, name, age, gender, id, grades, current_major, future_major):
