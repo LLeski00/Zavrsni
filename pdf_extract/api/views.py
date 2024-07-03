@@ -1,33 +1,14 @@
 from django.shortcuts import render
-from rest_framework import generics, status
-from .serializers import StudentSerializer, CreateStudentSerializer
-from .models import Student
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .forms import UploadFileForm
-from django.http import HttpResponse
-import csv
 import fitz  # PyMuPDF, imported as fitz for backward compatibility reasons
 import cv2
 import pytesseract
 import os
 import re
 from django.core.files.storage import FileSystemStorage
-from django.utils import decorators
 from rest_framework.parsers import MultiPartParser, FormParser
-
-# Create your views here.
-
-class StudentView(generics.ListAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-
-class GetStudent(APIView):
-
-    def get(self,request, format=None):
-        majors = "kumpr"
-
-        return Response(majors, status=status.HTTP_200_OK)
     
 class GetData(APIView):
 
@@ -947,36 +928,6 @@ class DeletePdfFile(APIView):
         delete_all_files(pdf_folder_path)
         return Response("Successfuly deleted the pdf file from temp folder", status=status.HTTP_200_OK)
 
-class CreateStudentView(APIView):
-    serializer_class = CreateStudentSerializer
-
-    def post(self, request, format=None):
-        if not self.request.session.exists(self.request.session.session_key):
-            self.request.session.create()
-
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            guest_can_pause = serializer.data.get('guest_can_pause')
-            votes_to_skip = serializer.data.get('votes_to_skip')
-            host = self.request.session.session_key
-            queryset = Student.objects.filter(host = host)
-            if queryset.exists():
-                student = queryset[0]
-                student.guest_can_pause = guest_can_pause
-                student.votes_to_skip = votes_to_skip
-                student.save(update_fields=['guest_can_pause', 'votes_to_skip'])
-                return Response(StudentSerializer(student).data, status=status.HTTP_200_OK)
-            else:
-                student = Student(host=host,guest_can_pause = guest_can_pause, votes_to_skip = votes_to_skip)
-                student.save()
-                return Response(StudentSerializer(student).data, status=status.HTTP_201_CREATED)
-            
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
-    
-class Subject:
-    subject_name=""
-    subject_grade=0
-
 class Student:
     def __init__(self, name, age, gender, id, grades, current_major, future_major):
         self.student_name = name
@@ -1116,36 +1067,18 @@ def process_table_data(table_data):
             processed_data.append(subject)
         
     return processed_data
-
-def generate_grade_csv_name(id_number):
-    return f"{id_number}_grade.csv"
-
-# Create grade.csv file
-def create_grade_csv(data_list, output_folder, output_file):
-    output_path = os.path.join(output_folder, output_file)
-    with open(output_path, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['Subject', 'Grade']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        for element in data_list:
-            subject = ' '.join(element.split()[:-1])
-            grade = element.split()[-1]
-            writer.writerow({'Subject': subject, 'Grade': grade})
     
 class ExtractStudentInfo(APIView):
     parser_classes = (MultiPartParser, FormParser)  # Ensure these parsers are used
 
     def post(self, request, *args, **kwargs):
         if request.method == "POST" and request.FILES['file']:
-            form = UploadFileForm(request.POST, request.FILES)
             file = request.FILES.get("file")
             fs = FileSystemStorage()
             filename = fs.save('./api/documents/' + file.name, file)
             uploaded_file_path = fs.path(filename)
 
             png_folder_path = r'./api/images'
-            pdf_folder_path = r'./api/documents'
-            student_data_folder_path = r'./api/student_data'
 
             table_pattern = r'^(?:\d{1,2}(?:st|nd|rd|th)?(?:\.|\b)|\b(?:[ivxlcdm]+|[IVXLCDM]+)(?:\.|\)))\s.*$'
 
@@ -1153,7 +1086,6 @@ class ExtractStudentInfo(APIView):
             dob = ""
             gender = ""
             ID = ""
-            student_data = []
             table_data = []
             whole_text = ""
 

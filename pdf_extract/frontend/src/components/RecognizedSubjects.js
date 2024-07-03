@@ -1,6 +1,5 @@
 import React, { Component, useEffect, useRef } from "react";
 import { useState } from "react";
-import HomePage from "./HomePage";
 
 const RecognizedSubjects = ({
     student,
@@ -11,7 +10,6 @@ const RecognizedSubjects = ({
     setRecognizedStudentSubjects,
     currentStudentMajor,
     futureStudentMajor,
-    isLoading,
     setIsLoading,
 }) => {
     useEffect(() => {
