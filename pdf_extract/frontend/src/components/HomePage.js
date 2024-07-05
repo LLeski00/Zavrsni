@@ -28,7 +28,7 @@ const HomePage = () => {
                 throw new Error("Network response was not ok");
             }
             const res = await response.json();
-            await setMajorsData(res); // Assuming the API returns JSON
+            await setMajorsData(res);
         } catch (error) {
             setError(error);
         } finally {
@@ -68,48 +68,35 @@ const HomePage = () => {
         }
 
         await fetch("http://127.0.0.1:8000/api/extract", {
-            // Your POST endpoint
             method: "POST",
-            body: formData.current, // This is your file object
+            body: formData.current,
         })
-            .then(
-                (response) => response.json() // if the response is a JSON object
-            )
-            .then(
-                (success) => {
-                    success.student_current_major = currentStudentMajor;
-                    success.student_future_major = futureStudentMajor;
-                    setStudentData(success);
-                    console.log("The data of the student: ", success);
-                    console.log(
-                        "OCR Recognized subjects: ",
-                        success.student_grades
-                    );
-                    deletePdfFile();
-                    setIsLoading(false);
-                } // Handle the success response object
-            )
-            .catch(
-                (error) => console.log(error) // Handle the error response object
-            );
+            .then((response) => response.json())
+            .then((success) => {
+                success.student_current_major = currentStudentMajor;
+                success.student_future_major = futureStudentMajor;
+                setStudentData(success);
+                console.log("The data of the student: ", success);
+                console.log(
+                    "OCR Recognized subjects: ",
+                    success.student_grades
+                );
+                deletePdfFile();
+                setIsLoading(false);
+            })
+            .catch((error) => console.log(error));
     };
 
     const deletePdfFile = () => {
         fetch("http://127.0.0.1:8000/api/delete-pdf-file", {
             method: "GET",
         })
-            .then(
-                (response) => response.json() // if the response is a JSON object
-            )
-            .then(
-                (success) => {
-                    console.log(success);
-                    setIsLoading(false);
-                } // Handle the success response object
-            )
-            .catch(
-                (error) => console.log(error) // Handle the error response object
-            );
+            .then((response) => response.json())
+            .then((success) => {
+                console.log(success);
+                setIsLoading(false);
+            })
+            .catch((error) => console.log(error));
     };
 
     const getSubjects = async (major) => {
@@ -119,19 +106,13 @@ const HomePage = () => {
             method: "POST",
             body: major,
         })
-            .then(
-                (response) => response.json() // if the response is a JSON object
-            )
-            .then(
-                (success) => {
-                    subjects = success;
-                    console.log("Subjects of the major: ", success);
-                    setIsLoading(false);
-                } // Handle the success response object
-            )
-            .catch(
-                (error) => console.log(error) // Handle the error response object
-            );
+            .then((response) => response.json())
+            .then((success) => {
+                subjects = success;
+                console.log("Subjects of the major: ", success);
+                setIsLoading(false);
+            })
+            .catch((error) => console.log(error));
 
         return subjects;
     };
