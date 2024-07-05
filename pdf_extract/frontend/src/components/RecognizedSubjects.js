@@ -27,19 +27,13 @@ const RecognizedSubjects = ({
             method: "POST",
             body: transfer,
         })
-            .then(
-                (response) => response.json() // if the response is a JSON object
-            )
-            .then(
-                (success) => {
-                    transferData = success;
-                    setTransferData(success);
-                    setIsLoading(false);
-                } // Handle the success response object
-            )
-            .catch(
-                (error) => console.log(error) // Handle the error response object
-            );
+            .then((response) => response.json())
+            .then((success) => {
+                transferData = success;
+                setTransferData(success);
+                setIsLoading(false);
+            })
+            .catch((error) => console.log(error));
 
         for (const x in currentStudentMajor) {
             for (const y in currentStudentMajor[x]) {
@@ -156,7 +150,7 @@ const RecognizedSubjects = ({
                     " Grade: ",
                     requiredSubjects[i].grade
                 );
-                if (subjectGrade < 1) {
+                if (subjectGrade < 2 || subjectGrade > 5) {
                     requiredSubjects.splice(i, 1);
                     setRequiredStudentSubjects(requiredSubjects);
                     getRecognizedSubjects(requiredSubjects, transferData);
@@ -170,7 +164,7 @@ const RecognizedSubjects = ({
             }
         }
 
-        if (subjectGrade < 1) return;
+        if (subjectGrade < 2 || subjectGrade > 5) return;
 
         for (const x in currentStudentMajor) {
             for (const y in currentStudentMajor[x]) {
