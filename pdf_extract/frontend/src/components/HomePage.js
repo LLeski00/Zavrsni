@@ -173,7 +173,7 @@ const HomePage = () => {
                 <div className="file-upload-div">
                     <p></p>
                     <label htmlFor="file-upload" className="custom-file-upload">
-                        Browse
+                        Pretraži
                     </label>
                     <input
                         type="file"
@@ -181,10 +181,10 @@ const HomePage = () => {
                         onChange={() => handleFileUpload(event)}
                     />
                     <p>{fileName}</p>
-                    <button onClick={handleFileUploadClick}>Confirm</button>
+                    <button onClick={handleFileUploadClick}>Potvrdi</button>
                 </div>
 
-                {isLoading && <p className="loading">Loading...</p>}
+                {isLoading && <p className="loading">Učitavanje...</p>}
                 {studentData && (
                     <div className="student-info">
                         <h2 className="student-name">
