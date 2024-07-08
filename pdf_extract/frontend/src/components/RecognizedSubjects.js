@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useRef } from "react";
 import { useState } from "react";
+import Export from "./Export";
 
 const RecognizedSubjects = ({
     student,
@@ -63,8 +64,8 @@ const RecognizedSubjects = ({
     const getRecognizedSubjects = (requiredSubjects, transferData) => {
         let tempGrades = [];
         let matches;
-        let recognizedSubjects = [];
         let temp;
+        let recognizedSubjects = {};
 
         for (const i in transferData) {
             matches = 0;
@@ -118,7 +119,11 @@ const RecognizedSubjects = ({
                                             temp.grade / tempGrades.length
                                         );
 
-                                        recognizedSubjects.push(temp);
+                                        if (!recognizedSubjects[l])
+                                            recognizedSubjects[l] = [];
+
+                                        recognizedSubjects[l].push(temp);
+
                                         tempGrades.length = 0;
                                         break;
                                     }
@@ -187,6 +192,8 @@ const RecognizedSubjects = ({
     return (
         <div className="RecognizedSubjects">
             <div className="recognized-subjects-content">
+                {recognizedStudentSubjects && <Export />}
+
                 <div className="transfer-block">
                     <div className="current-student-major">
                         <h2>Smjer sa kojeg se student prebacuje: </h2>
@@ -241,15 +248,35 @@ const RecognizedSubjects = ({
                             )}
                     </div>
 
-                    <div className="recognized-student-grades">
+                    <div className="future-student-major">
                         <h2>Priznate ocjene:</h2>
                         <div className="recognized-student-grades-list">
                             {recognizedStudentSubjects &&
-                                recognizedStudentSubjects.map((subject) => (
-                                    <p key={subject.name}>
-                                        {subject.name} | Ocjena: {subject.grade}
-                                    </p>
-                                ))}
+                                Object.keys(recognizedStudentSubjects).map(
+                                    (keyName, i) => (
+                                        <React.Fragment key={i}>
+                                            <div className="future-student-major-semester">
+                                                <form className="grades-form">
+                                                    <h3>{keyName}. semestar</h3>
+                                                    {recognizedStudentSubjects[
+                                                        keyName
+                                                    ].map((subject, index) => (
+                                                        <div
+                                                            className="recognized-subject"
+                                                            key={index}
+                                                        >
+                                                            <p>
+                                                                {subject.name} |
+                                                                Ocjena:{" "}
+                                                                {subject.grade}
+                                                            </p>
+                                                        </div>
+                                                    ))}
+                                                </form>
+                                            </div>
+                                        </React.Fragment>
+                                    )
+                                )}
                         </div>
                     </div>
                 </div>

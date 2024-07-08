@@ -92,7 +92,8 @@ body {
     background-color: #304f81;
 }
 
-.recognized-subjects-content .current-student-major {
+.recognized-subjects-content .current-student-major,
+.future-student-major {
     background-color: #34568b;
     margin: 10px;
     margin-top: 20px;
@@ -100,14 +101,16 @@ body {
     box-shadow: 10px 10px 10px 10px #1d2f4d;
 }
 
-.recognized-subjects-content .current-student-major-semester {
+.recognized-subjects-content .current-student-major-semester,
+.future-student-major-semester {
     background-color: #2d4a78;
     margin: 20px;
     border-radius: 10px;
     box-shadow: 2px 2px 2px 2px #213455;
 }
 
-.recognized-subjects-content .passed-subject {
+.recognized-subjects-content .passed-subject,
+.recognized-subject {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -120,23 +123,7 @@ body {
     margin-right: 10px;
 }
 
-.recognized-subjects-content .recognized-student-grades {
-    background-color: #34568b;
-    margin: 10px;
-    margin-top: 20px;
-    box-shadow: 10px 10px 10px 10px #1d2f4d;
-    border-radius: 10px;
-}
-
-.recognized-subjects-content .recognized-student-grades-list {
-    background-color: #2d4a78;
-    border-radius: 10px;
-    margin: 20px;
-    padding: 20px;
-    box-shadow: 2px 2px 2px 2px #213455;
-}
-
-.recognized-subjects-content .recognized-student-grades-list p {
+.recognized-subjects-content .recognized-subject p {
     margin: 15px;
 }
 
