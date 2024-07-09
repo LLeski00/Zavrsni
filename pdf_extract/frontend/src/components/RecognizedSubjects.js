@@ -1,10 +1,12 @@
-import React, { Component, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Export from "./Export";
 
 const RecognizedSubjects = ({
     student,
     transfer,
+    currentStudentMajorId,
+    futureStudentMajorId,
     requiredStudentSubjects,
     setRequiredStudentSubjects,
     recognizedStudentSubjects,
@@ -192,8 +194,6 @@ const RecognizedSubjects = ({
     return (
         <div className="RecognizedSubjects">
             <div className="recognized-subjects-content">
-                {recognizedStudentSubjects && <Export />}
-
                 <div className="transfer-block">
                     <div className="current-student-major">
                         <h2>Smjer sa kojeg se student prebacuje: </h2>
@@ -278,6 +278,22 @@ const RecognizedSubjects = ({
                                     )
                                 )}
                         </div>
+                        {recognizedStudentSubjects && (
+                            <Export
+                                student={student}
+                                recognizedStudentSubjects={
+                                    recognizedStudentSubjects
+                                }
+                                requiredStudentSubjects={
+                                    requiredStudentSubjects
+                                }
+                                transferData={transferData}
+                                currentStudentMajor={currentStudentMajor}
+                                futureStudentMajor={futureStudentMajor}
+                                currentStudentMajorId={currentStudentMajorId}
+                                futureStudentMajorId={futureStudentMajorId}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

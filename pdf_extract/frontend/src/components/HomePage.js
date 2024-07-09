@@ -199,6 +199,8 @@ const HomePage = () => {
                                     "-" +
                                     futureStudentMajorId
                                 }
+                                currentStudentMajorId={currentStudentMajorId}
+                                futureStudentMajorId={futureStudentMajorId}
                                 requiredStudentSubjects={
                                     requiredStudentSubjects
                                 }
