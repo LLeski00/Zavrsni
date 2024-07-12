@@ -5,6 +5,7 @@ Requirements:
   - Djano REST Framework
   - Fitz
   - CV2
+  - Tesseract
   - PyTesseract
   - Node.js
   - npm
@@ -17,6 +18,8 @@ How to install:
   - "pip install PyMuPDF"
   - "pip install opencv-python"
   - "pip install pytesseract"
+  - Install Tesseract from: https://github.com/UB-Mannheim/tesseract/wiki (include croatian language)
+  - Include Tesseract in PATH
   - Download Node.js and npm
   - To install all the dependencies run the command: "npm install" from the "frontend" folder.
 
