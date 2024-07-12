@@ -10,7 +10,7 @@ Requirements:
   - npm
 
 How to install:
-  - Download Python
+  - Install Python and PIP
   - Go to root "pdf_extract" folder and run commands:
   - "pip install django"
   - "pip install djangorestframework"
