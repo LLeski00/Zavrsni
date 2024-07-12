@@ -1,11 +1,23 @@
 Requirements:
   - Python: Version 3.6 or higher
+  - PIP
   - Django
   - Djano REST Framework
+  - Fitz
+  - CV2
+  - PyTesseract
   - Node.js
   - npm
 
 How to install:
+  - Download Python
+  - Go to root "pdf_extract" folder and run commands:
+  - "pip install django"
+  - "pip install djangorestframework"
+  - "pip install PyMuPDF"
+  - "pip install opencv-python"
+  - "pip install pytesseract"
+  - Download Node.js and npm
   - To install all the dependencies run the command: "npm install" from the "frontend" folder.
 
 How to run:
